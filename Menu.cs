@@ -16,22 +16,22 @@ namespace DelfiApp
 {
     public partial class Menu : KryptonForm
     {
-        string ver = "0.2913";
+        string ver = "0.2914";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
 
         void setup_update(bool in_st)
         {
-            if (client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeTest/master/Test1/version.txt").Contains(ver))
+            if (client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt").Contains(ver))
             {
                 if (!in_st)
                 {
-                    MessageBox.Show("Версия приложения:" + ver + "\n" + "Версия приложения на сервере: " + client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeTest/master/Test1/version.txt"), "Уведомление", MessageBoxButtons.OK);
+                    MessageBox.Show("Версия приложения:" + ver + "\n" + "Версия приложения на сервере: " + client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt"), "Уведомление", MessageBoxButtons.OK);
                 }
             }
             else
             {
-                if (!in_st) { MessageBox.Show("Версия приложения:" + ver + "\n" + "Версия приложения на сервере: " + client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeTest/master/Test1/version.txt"), "Уведомление", MessageBoxButtons.OK); }
+                if (!in_st) { MessageBox.Show("Версия приложения:" + ver + "\n" + "Версия приложения на сервере: " + client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt"), "Уведомление", MessageBoxButtons.OK); }
                 MessageBox.Show("Обнаружена новая версия! Идет установка файлов...", "Update", MessageBoxButtons.OK);
                 File.Move(fullPath + "\\DeWorld.exe", fullPath + "\\DeWorld_old.exe");
                 string requestString = @"https://github.com/Delfi1/DeWorld/blob/master/bin/Release/DelfiApp.exe?raw=true";
