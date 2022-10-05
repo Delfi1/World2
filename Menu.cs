@@ -16,7 +16,7 @@ namespace DelfiApp
 {
     public partial class Menu : KryptonForm
     {
-        string ver = "0.2914";
+        string ver = "0.2915";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
 
@@ -61,6 +61,7 @@ namespace DelfiApp
             int step = 0;
             string PrintVer = "Version: " + ver;
             string Check = "Checking for a new version...";
+            setup_update(true);
             while (true){
                 while (step <= DeWorld.Length)
                 {
