@@ -16,9 +16,10 @@ namespace DelfiApp
 {
     public partial class Menu : KryptonForm
     {
-        string ver = "0.2915";
+        string ver = "0.2916";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
+
 
         void setup_update(bool in_st)
         {
@@ -90,6 +91,11 @@ namespace DelfiApp
                 await Task.Delay(2000);
             }
         }
+        async void Initilise()
+        {
+            notifyIcon1.Text = "De:World";
+            
+        }
         public Menu()
         {
             InitializeComponent();
@@ -98,6 +104,37 @@ namespace DelfiApp
         private void Menu_Load(object sender, EventArgs e)
         {
             TextExtraEdit();
+            Initilise();
         }
+        
+        protected override void OnResize(EventArgs e)
+        {
+            // Если программу свернули, то убрать ее из панели задач и показать в трее иконку
+            if (WindowState == FormWindowState.Minimized)
+            {
+                ShowInTaskbar = false;
+                notifyIcon1.Visible = true;
+                notifyIcon1.ShowBalloonTip(
+                  1,
+                  "De:World",
+                  "Программа свёрнута в трей",
+                  ToolTipIcon.Info
+                );
+            }
+            else
+            {
+                ShowInTaskbar = true;
+                notifyIcon1.Visible = false;
+            }
+            base.OnResize(e);
+        }
+
+        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        {
+            this.Show();
+            notifyIcon1.Visible = false;
+            WindowState = FormWindowState.Normal;
+        }
+
     }
 }
