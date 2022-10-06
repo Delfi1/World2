@@ -18,7 +18,7 @@ namespace DelfiApp
     {
         int get_hg1;
         int get_wd1;
-        string ver = "0.2918";
+        string ver = "0.2919";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
         DeLog Log = new DeLog();
@@ -97,7 +97,6 @@ namespace DelfiApp
             int step = 0;
             string PrintVer = "Version: " + ver;
             string Check = "Checking for a new version...";
-            setup_update(true);
             while (true){
                 while (step <= DeWorld.Length)
                 {
@@ -157,6 +156,7 @@ namespace DelfiApp
             await Task.Delay(10);
             TextExtraEdit();
             Initilise();
+            setup_update(true);
         }
         public Menu()
         {
