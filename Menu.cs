@@ -16,11 +16,10 @@ namespace DelfiApp
 {
     public partial class Menu : KryptonForm
     {
-        string ver = "0.2916";
+        string ver = "0.2917";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
-
-
+        
         void setup_update(bool in_st)
         {
             if (client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt").Contains(ver))
@@ -35,6 +34,7 @@ namespace DelfiApp
                 if (!in_st) { MessageBox.Show("Версия приложения:" + ver + "\n" + "Версия приложения на сервере: " + client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt"), "Уведомление", MessageBoxButtons.OK); }
                 MessageBox.Show("Обнаружена новая версия! Идет установка файлов...", "Update", MessageBoxButtons.OK);
                 File.Move(fullPath + "\\DeWorld.exe", fullPath + "\\DeWorld_old.exe");
+                System.Threading.Thread.Sleep(100);
                 string requestString = @"https://github.com/Delfi1/DeWorld/blob/master/bin/Release/DelfiApp.exe?raw=true";
                 HttpClient httpClient = new HttpClient();
                 var GetTask = httpClient.GetAsync(requestString);
@@ -93,8 +93,24 @@ namespace DelfiApp
         }
         async void Initilise()
         {
+            await Task.Delay(10);
+            if (File.Exists(fullPath + "\\DeWorld_old.exe"))
+            {
+                File.Delete(fullPath + "\\DeWorld_old.exe");
+            }
             notifyIcon1.Text = "De:World";
-            
+        }
+        async void Load_(){
+            this.Visible = false;
+            this.Opacity = 0F;
+            this.Visible = true;
+            kryptonButton1.Location = new Point(kryptonButton1.Location.X, kryptonButton1.Location.Y -200);
+            while (this.Opacity != 1){
+                Opacity = Opacity + 0.01F;
+                await Task.Delay(12);
+            }
+            TextExtraEdit();
+            Initilise();
         }
         public Menu()
         {
@@ -103,8 +119,7 @@ namespace DelfiApp
 
         private void Menu_Load(object sender, EventArgs e)
         {
-            TextExtraEdit();
-            Initilise();
+            Load_();
         }
         
         protected override void OnResize(EventArgs e)
