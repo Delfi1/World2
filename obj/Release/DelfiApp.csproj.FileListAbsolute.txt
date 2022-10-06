@@ -10,3 +10,4 @@ C:\Users\Delfi\Source\Repos\DeWorld\obj\Release\DelfiApp.csproj.CopyComplete
 C:\Users\Delfi\Source\Repos\DeWorld\obj\Release\DelfiApp.exe
 C:\Users\Delfi\Source\Repos\DeWorld\bin\Release\System.Diagnostics.DiagnosticSource.xml
 C:\Users\Delfi\Source\Repos\DeWorld\obj\Release\DelfiApp.csproj.Fody.CopyLocal.cache
+C:\Users\Delfi\source\repos\DeWorld\obj\Release\DelfiApp.DeLog.resources

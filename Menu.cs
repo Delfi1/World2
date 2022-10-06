@@ -16,10 +16,12 @@ namespace DelfiApp
 {
     public partial class Menu : KryptonForm
     {
-        string ver = "0.2917";
+        int get_hg1;
+        int get_wd1;
+        string ver = "0.2918";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
-        
+        DeLog Log = new DeLog();
         void setup_update(bool in_st)
         {
             if (client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt").Contains(ver))
@@ -55,9 +57,42 @@ namespace DelfiApp
                 Application.Exit();
             }
         }
+
+        async void Set_locations(){
+            await Task.Delay(1);
+            kryptonButton1.Location = new Point(kryptonButton1.Location.X, kryptonButton1.Location.Y + 0);
+        }
+        async void Get_prop(){
+            await Task.Delay(1);
+            get_hg1 = kryptonButton1.Size.Height;
+            get_wd1 = kryptonButton1.Size.Width;
+            
+        }
+        async void Set_Prop(){
+
+            await Task.Delay(20);
+            kryptonButton1.Width = 0;
+            kryptonButton1.Height = 0;
+        }
+        async void Btn_ch() {
+            while (true)
+            {
+                if (kryptonButton1.Size.Width <= get_wd1)
+                {
+                    kryptonButton1.Width = kryptonButton1.Width + 1;
+                    await Task.Delay(1);
+                }
+                else { break; }
+                if (kryptonButton1.Size.Height <= get_hg1)
+                {
+                    kryptonButton1.Height = kryptonButton1.Height + 1;
+                    await Task.Delay(1);
+                }
+            }
+        }
         async void TextExtraEdit()
         {
-            await Task.Delay(300);
+            await Task.Delay(3300);
             string DeWorld = "Delfi:World";
             int step = 0;
             string PrintVer = "Version: " + ver;
@@ -100,15 +135,26 @@ namespace DelfiApp
             }
             notifyIcon1.Text = "De:World";
         }
-        async void Load_(){
-            this.Visible = false;
-            this.Opacity = 0F;
-            this.Visible = true;
-            kryptonButton1.Location = new Point(kryptonButton1.Location.X, kryptonButton1.Location.Y -200);
-            while (this.Opacity != 1){
+        async void change_op()
+        {
+            while (this.Opacity != 1)
+            {
                 Opacity = Opacity + 0.01F;
                 await Task.Delay(12);
             }
+        }
+        async void Load_(){
+            Set_locations();
+            this.Visible = false;
+            this.Opacity = 0F;
+            this.Visible = true;
+            Get_prop();
+            await Task.Delay(10);
+            Set_Prop();
+            await Task.Delay(10);
+            change_op();
+            Btn_ch();
+            await Task.Delay(10);
             TextExtraEdit();
             Initilise();
         }
@@ -151,5 +197,18 @@ namespace DelfiApp
             WindowState = FormWindowState.Normal;
         }
 
+        private void kryptonButton1_Click(object sender, EventArgs e)
+        {
+            if (Log != null && !Log.IsDisposed && Log.Visible)
+                return;
+
+            if (Log == null)
+                Log = new DeLog();
+
+            if (Log.IsDisposed)
+                Log = new DeLog();
+
+            Log.Show();
+        }
     }
 }

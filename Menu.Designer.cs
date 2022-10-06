@@ -81,6 +81,7 @@
             this.kryptonButton1.StateCommon.Border.Rounding = 6;
             this.kryptonButton1.TabIndex = 0;
             this.kryptonButton1.Values.Text = "Log";
+            this.kryptonButton1.Click += new System.EventHandler(this.kryptonButton1_Click);
             // 
             // Menu
             // 
