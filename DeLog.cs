@@ -12,13 +12,13 @@ using System.Windows.Forms;
 
 namespace DelfiApp
 {
-    public partial class DeLog : Form
+    public partial class DeLog : KryptonForm
     {
         WebClient client = new WebClient();
         public DeLog()
         {
             InitializeComponent();
-            richTextBox1.Text = client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeTest/master/Test1/Text1.txt"); 
+            kryptonRichTextBox1.Text = client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeTest/master/Test1/Text1.txt"); 
         }
     }
 }
