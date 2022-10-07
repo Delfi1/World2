@@ -18,7 +18,8 @@ namespace DelfiApp
         public DeLog()
         {
             InitializeComponent();
-            kryptonRichTextBox1.Text = client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeTest/master/Test1/Text1.txt"); 
+            kryptonRichTextBox1.Text = client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/Text1.txt"); 
+            
         }
     }
 }

@@ -18,43 +18,47 @@ namespace DelfiApp
     {
         int get_hg1;
         int get_wd1;
-        string ver = "0.2920";
+        string ver = "0.2921";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
         DeLog Log = new DeLog();
+        DialogResult result;
         void setup_update(bool in_st)
         {
             if (client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt").Contains(ver))
             {
                 if (!in_st)
                 {
-                    MessageBox.Show("Версия приложения:" + ver + "\n" + "Версия приложения на сервере: " + client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt"), "Уведомление", MessageBoxButtons.OK);
+                    result = MessageBox.Show("Версия приложения:" + ver + "\n" + "Версия приложения на сервере: " + client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt"), "Уведомление", MessageBoxButtons.OK);
                 }
             }
             else
             {
-                if (!in_st) { MessageBox.Show("Версия приложения:" + ver + "\n" + "Версия приложения на сервере: " + client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt"), "Уведомление", MessageBoxButtons.OK); }
-                MessageBox.Show("Обнаружена новая версия! Идет установка файлов...", "Update", MessageBoxButtons.OK);
-                File.Move(fullPath + "\\DeWorld.exe", fullPath + "\\DeWorld_old.exe");
-                System.Threading.Thread.Sleep(100);
-                string requestString = @"https://github.com/Delfi1/DeWorld/blob/master/bin/Release/DelfiApp.exe?raw=true";
-                HttpClient httpClient = new HttpClient();
-                var GetTask = httpClient.GetAsync(requestString);
-                GetTask.Wait(1000); // WebCommsTimeout is in milliseconds
-
-                if (!GetTask.Result.IsSuccessStatusCode)
+                if (!in_st) { result = MessageBox.Show("Версия приложения:" + ver + "\n" + "Версия приложения на сервере: " + client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt"), "Уведомление", MessageBoxButtons.OK); }
+                MessageBox.Show("Обнаружена новая версия! Идет установка файлов...", "Update", MessageBoxButtons.OKCancel);
+                if (result == DialogResult.OK)
                 {
-                    // write an error
-                    return;
-                }
+                    File.Move(fullPath + "\\DeWorld.exe", fullPath + "\\DeWorld_old.exe");
+                    System.Threading.Thread.Sleep(100);
+                    string requestString = @"https://github.com/Delfi1/DeWorld/blob/master/bin/Release/DelfiApp.exe?raw=true";
+                    HttpClient httpClient = new HttpClient();
+                    var GetTask = httpClient.GetAsync(requestString);
+                    GetTask.Wait(1000); // WebCommsTimeout is in milliseconds
 
-                using (var fs = new FileStream(fullPath + "\\DeWorld.exe", FileMode.CreateNew))
-                {
-                    var ResponseTask = GetTask.Result.Content.CopyToAsync(fs);
-                    ResponseTask.Wait(1000);
+                    if (!GetTask.Result.IsSuccessStatusCode)
+                    {
+                        // write an error
+                        return;
+                    }
+
+                    using (var fs = new FileStream(fullPath + "\\DeWorld.exe", FileMode.CreateNew))
+                    {
+                        var ResponseTask = GetTask.Result.Content.CopyToAsync(fs);
+                        ResponseTask.Wait(1000);
+                    }
+                    System.Diagnostics.Process.Start(fullPath + "\\DeWorld.exe");
+                    Application.Exit();
                 }
-                System.Diagnostics.Process.Start(fullPath + "\\DeWorld.exe");
-                Application.Exit();
             }
         }
 
@@ -69,23 +73,25 @@ namespace DelfiApp
             
         }
         async void Set_Prop(){
-
+            
             await Task.Delay(20);
             kryptonButton1.Width = 0;
             kryptonButton1.Height = 0;
+            kryptonButton2.Width = 0;
+            kryptonButton2.Height = 0;
         }
-        async void Btn_ch() {
+        async void Btn_ch(KryptonButton btn) {
             while (true)
             {
-                if (kryptonButton1.Size.Width <= get_wd1)
+                if (btn.Size.Width <= get_wd1)
                 {
-                    kryptonButton1.Width = kryptonButton1.Width + 3;
+                    btn.Width = btn.Width + 3;
                     await Task.Delay(1);
                 }
                 else { break; }
-                if (kryptonButton1.Size.Height <= get_hg1)
+                if (btn.Size.Height <= get_hg1)
                 {
-                    kryptonButton1.Height = kryptonButton1.Height + 1;
+                    btn.Height = btn.Height + 1;
                     await Task.Delay(1);
                 }
             }
@@ -144,16 +150,19 @@ namespace DelfiApp
         }
         async void Load_(){
             Set_locations();
+            kryptonColorButton1.Visible = false;
             this.Visible = false;
             this.Opacity = 0F;
             this.Visible = true;
             Get_prop();
-            await Task.Delay(10);
+            await Task.Delay(20);
             Set_Prop();
-            await Task.Delay(10);
+            await Task.Delay(20);
             change_op();
-            Btn_ch();
-            await Task.Delay(10);
+            await Task.Delay(2000);
+            Btn_ch(kryptonButton1);
+            Btn_ch(kryptonButton2);
+            await Task.Delay(20);
             TextExtraEdit();
             Initilise();
             setup_update(true);
@@ -209,6 +218,16 @@ namespace DelfiApp
                 Log = new DeLog();
 
             Log.Show();
+        }
+
+        private void kryptonColorButton1_MouseClick(object sender, MouseEventArgs e)
+        {
+            kryptonButton1.StateNormal.Back.Color1 = kryptonColorButton1.SelectedColor;
+        }
+
+        private void kryptonButton2_Click(object sender, EventArgs e)
+        {
+            kryptonColorButton1.Visible = !kryptonColorButton1.Visible;
         }
     }
 }
