@@ -18,7 +18,7 @@ namespace DelfiApp
     {
         int get_hg1;
         int get_wd1;
-        string ver = "0.2921";
+        string ver = "0.2922";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
         DeLog Log = new DeLog();
@@ -98,7 +98,7 @@ namespace DelfiApp
         }
         async void TextExtraEdit()
         {
-            await Task.Delay(3300);
+            await Task.Delay(1000);
             string DeWorld = "Delfi:World";
             int step = 0;
             string PrintVer = "Version: " + ver;
@@ -151,6 +151,7 @@ namespace DelfiApp
         async void Load_(){
             Set_locations();
             kryptonColorButton1.Visible = false;
+            kryptonColorButton2.Visible = false;
             this.Visible = false;
             this.Opacity = 0F;
             this.Visible = true;
@@ -159,7 +160,7 @@ namespace DelfiApp
             Set_Prop();
             await Task.Delay(20);
             change_op();
-            await Task.Delay(2000);
+            await Task.Delay(1800);
             Btn_ch(kryptonButton1);
             Btn_ch(kryptonButton2);
             await Task.Delay(20);
@@ -228,6 +229,7 @@ namespace DelfiApp
         private void kryptonButton2_Click(object sender, EventArgs e)
         {
             kryptonColorButton1.Visible = !kryptonColorButton1.Visible;
+            kryptonColorButton2.Visible = !kryptonColorButton2.Visible;
         }
     }
 }
