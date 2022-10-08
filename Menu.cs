@@ -18,7 +18,7 @@ namespace DelfiApp
     {
         int get_hg1;
         int get_wd1;
-        string ver = "0.2922";
+        string ver = "0.2923";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
         DeLog Log = new DeLog();
@@ -168,6 +168,14 @@ namespace DelfiApp
             Initilise();
             setup_update(true);
         }
+        async void Change_col(KryptonButton btn, KryptonColorButton cbt){
+            Color save_color = btn.StateNormal.Back.Color1;
+            await Task.Delay(10);
+            btn.StateNormal.Back.Color1 = cbt.SelectedColor;
+            btn.StateCommon.Back.Color1 = cbt.SelectedColor;
+            btn.StateTracking.Back.Color1 = cbt.SelectedColor;
+            btn.StatePressed.Back.Color1 = cbt.SelectedColor;
+        }
         public Menu()
         {
             InitializeComponent();
@@ -223,7 +231,8 @@ namespace DelfiApp
 
         private void kryptonColorButton1_MouseClick(object sender, MouseEventArgs e)
         {
-            kryptonButton1.StateNormal.Back.Color1 = kryptonColorButton1.SelectedColor;
+            Change_col(kryptonButton1, kryptonColorButton1);
+            
         }
 
         private void kryptonButton2_Click(object sender, EventArgs e)
