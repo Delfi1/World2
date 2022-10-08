@@ -243,6 +243,7 @@
   <ItemGroup>
     <Content Include="Text1.txt" />
     <Content Include="version.txt" />
+    <Content Include="World_version.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.6.5.5\build\Fody.targets" Condition="Exists('packages\Fody.6.5.5\build\Fody.targets')" />

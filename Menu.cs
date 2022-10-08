@@ -19,6 +19,7 @@ namespace DelfiApp
         int get_hg1;
         int get_wd1;
         string ver = "0.2924";
+        string World_ver = "A01";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
         DeLog Log = new DeLog();
@@ -61,7 +62,15 @@ namespace DelfiApp
                 }
             }
         }
-
+        async void Change_col(KryptonButton btn)
+        {
+            string col = File.ReadLines(fullPath + "\\Design.txt").ElementAtOrDefault(0);
+            await Task.Delay(10);
+            btn.StateNormal.Back.Color1 = Color.FromName(col);
+            btn.StateCommon.Back.Color1 = Color.FromName(col);
+            btn.StateTracking.Back.Color1 = Color.FromName(col);
+            btn.StatePressed.Back.Color1 = Color.FromName(col);
+        }
         async void Set_locations(){
             await Task.Delay(1);
             kryptonButton1.Location = new Point(kryptonButton1.Location.X, kryptonButton1.Location.Y + 0);
@@ -148,7 +157,30 @@ namespace DelfiApp
                 await Task.Delay(12);
             }
         }
+        async void reality(){
+            await Task.Delay(2000);
+            Real.Visible = true;
+            int step = 0;
+            string Realit = "World";
+            string Ent = "Enter";
+            while (step <= Ent.Length)
+            {
+                Real.Values.ExtraText = Ent.Substring(0, step++);
+
+                await Task.Delay(175);
+            }
+            step = 0;
+            await Task.Delay(100);
+            while (step <= Realit.Length)
+            {
+                Real.Values.Text = Realit.Substring(0, step++);
+
+                await Task.Delay(90);
+            }
+        }
         async void Load_(){
+            Real.Visible = false;
+            Change_col(kryptonButton1);
             Set_locations();
             kryptonColorButton1.Visible = false;
             kryptonColorButton2.Visible = false;
@@ -167,10 +199,30 @@ namespace DelfiApp
             TextExtraEdit();
             Initilise();
             setup_update(true);
+            await Task.Delay(1000);
+            reality();
         }
-        async void Change_col(KryptonButton btn, KryptonColorButton cbt){
-            Color save_color = btn.StateNormal.Back.Color1;
-            string ReadLine = File.ReadLines("MyTextFile.txt").ElementAtOrDefault(1);
+        private static String RGBConverter(Color col)
+        {
+            String rtn = String.Empty;
+            try
+            {
+                rtn = col.R.ToString() + ", " + col.G.ToString() + ", " + col.B.ToString();
+            }
+            catch (Exception ex)
+            {
+                //doing nothing
+            }
+
+            return rtn;
+        }
+
+        async void Change_col(KryptonButton btn, KryptonColorButton cbt, int line){
+            StreamWriter sw = new StreamWriter(fullPath + "\\Design.txt");
+            string sc = RGBConverter(btn.StateNormal.Back.Color1);
+            await Task.Delay(10);
+            sw.WriteLine(sc);
+            sw.Close();
             await Task.Delay(10);
             btn.StateNormal.Back.Color1 = cbt.SelectedColor;
             btn.StateCommon.Back.Color1 = cbt.SelectedColor;
@@ -232,7 +284,7 @@ namespace DelfiApp
 
         private void kryptonColorButton1_MouseClick(object sender, MouseEventArgs e)
         {
-            Change_col(kryptonButton1, kryptonColorButton1);
+            Change_col(kryptonButton1, kryptonColorButton1, 0);
             
         }
 
@@ -240,6 +292,22 @@ namespace DelfiApp
         {
             kryptonColorButton1.Visible = !kryptonColorButton1.Visible;
             kryptonColorButton2.Visible = !kryptonColorButton2.Visible;
+        }
+
+        private void kryptonColorButton2_MouseClick(object sender, MouseEventArgs e)
+        {
+            Change_col(kryptonButton2, kryptonColorButton2, 1);
+        }
+
+        private void Real_MouseClick(object sender, MouseEventArgs e)
+        {
+            if(File.Exists(fullPath + "\\World\\world.exe")){
+
+                File.Open(fullPath + "\\World\\world.exe", FileMode.Open);
+            }
+            else{
+                DirectoryInfo di = Directory.CreateDirectory(fullPath + "\\World");
+            }
         }
     }
 }

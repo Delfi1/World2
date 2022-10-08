@@ -37,6 +37,7 @@
             this.kryptonButton2 = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             this.kryptonColorButton2 = new ComponentFactory.Krypton.Toolkit.KryptonColorButton();
             this.kryptonSplitContainer1 = new ComponentFactory.Krypton.Toolkit.KryptonSplitContainer();
+            this.Real = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1.Panel1)).BeginInit();
             this.kryptonSplitContainer1.Panel1.SuspendLayout();
@@ -205,6 +206,7 @@
             | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
             this.kryptonColorButton2.TabIndex = 3;
             this.kryptonColorButton2.Values.Text = "kryptonColorButton2";
+            this.kryptonColorButton2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.kryptonColorButton2_MouseClick);
             // 
             // kryptonSplitContainer1
             // 
@@ -218,13 +220,14 @@
             // 
             this.kryptonSplitContainer1.Panel1.Controls.Add(this.kryptonButton1);
             this.kryptonSplitContainer1.Panel1.Controls.Add(this.kryptonColorButton1);
-            this.kryptonSplitContainer1.Panel1.StateNormal.Color1 = System.Drawing.Color.Transparent;
+            this.kryptonSplitContainer1.Panel1.StateNormal.Color1 = System.Drawing.Color.DarkGray;
             // 
             // kryptonSplitContainer1.Panel2
             // 
+            this.kryptonSplitContainer1.Panel2.Controls.Add(this.Real);
             this.kryptonSplitContainer1.Panel2.Controls.Add(this.kryptonButton2);
             this.kryptonSplitContainer1.Panel2.Controls.Add(this.kryptonColorButton2);
-            this.kryptonSplitContainer1.Panel2.StateNormal.Color1 = System.Drawing.Color.Transparent;
+            this.kryptonSplitContainer1.Panel2.StateNormal.Color1 = System.Drawing.Color.Silver;
             this.kryptonSplitContainer1.Size = new System.Drawing.Size(832, 453);
             this.kryptonSplitContainer1.SplitterDistance = 200;
             this.kryptonSplitContainer1.SplitterWidth = 8;
@@ -233,6 +236,21 @@
             | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
             this.kryptonSplitContainer1.StateNormal.Back.Color1 = System.Drawing.Color.Transparent;
             this.kryptonSplitContainer1.TabIndex = 4;
+            // 
+            // Real
+            // 
+            this.Real.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Real.LabelStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.TitleControl;
+            this.Real.Location = new System.Drawing.Point(73, 168);
+            this.Real.Name = "Real";
+            this.Real.Size = new System.Drawing.Size(6, 2);
+            this.Real.StateNormal.Draw = ComponentFactory.Krypton.Toolkit.InheritBool.True;
+            this.Real.StateNormal.DrawFocus = ComponentFactory.Krypton.Toolkit.InheritBool.True;
+            this.Real.StateNormal.LongText.Font = new System.Drawing.Font("Microsoft Sans Serif", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Real.StateNormal.ShortText.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Real.TabIndex = 4;
+            this.Real.Values.Text = "";
+            this.Real.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Real_MouseClick);
             // 
             // Menu
             // 
@@ -269,6 +287,7 @@
             this.kryptonSplitContainer1.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1.Panel2)).EndInit();
             this.kryptonSplitContainer1.Panel2.ResumeLayout(false);
+            this.kryptonSplitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1)).EndInit();
             this.kryptonSplitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -283,6 +302,7 @@
         public ComponentFactory.Krypton.Toolkit.KryptonButton kryptonButton2;
         private ComponentFactory.Krypton.Toolkit.KryptonColorButton kryptonColorButton2;
         private ComponentFactory.Krypton.Toolkit.KryptonSplitContainer kryptonSplitContainer1;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel Real;
     }
 }
 
