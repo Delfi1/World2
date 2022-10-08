@@ -18,7 +18,7 @@ namespace DelfiApp
     {
         int get_hg1;
         int get_wd1;
-        string ver = "0.2923";
+        string ver = "0.2924";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
         DeLog Log = new DeLog();
@@ -170,6 +170,7 @@ namespace DelfiApp
         }
         async void Change_col(KryptonButton btn, KryptonColorButton cbt){
             Color save_color = btn.StateNormal.Back.Color1;
+            string ReadLine = File.ReadLines("MyTextFile.txt").ElementAtOrDefault(1);
             await Task.Delay(10);
             btn.StateNormal.Back.Color1 = cbt.SelectedColor;
             btn.StateCommon.Back.Color1 = cbt.SelectedColor;
