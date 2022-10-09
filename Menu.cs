@@ -19,7 +19,7 @@ namespace DelfiApp
     {
         int get_hg1;
         int get_wd1;
-        string ver = "0.2929";
+        string ver = "0.2930";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
         DeLog Log = new DeLog();
@@ -62,7 +62,6 @@ namespace DelfiApp
                 }
             }
         }
-
         void Download_file(string requestString, string path)
         {
             HttpClient httpClient = new HttpClient();
@@ -325,10 +324,11 @@ namespace DelfiApp
                     Download_file(@"https://github.com/Delfi1/DeWorld/blob/master/World.zip?raw=true", fullPath + "\\World\\World.zip");
                     ZipFile.ExtractToDirectory(fullPath + "\\World\\World.zip", fullPath + "\\World\\Files\\");
                     System.Diagnostics.Process.Start(fullPath + "\\World\\Files\\World.exe");
-                    File.Delete(fullPath + "World\\World.zip");
+                    File.Delete(fullPath + "\\World\\World.zip");
                 }
+                File.Delete(fullPath + "\\World\\World_ver.txt");
                 StreamWriter sw = new StreamWriter(fullPath + "\\World\\World_ver.txt");
-                sw.WriteLine(client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/World_version.txt"));
+                sw.Write(client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/World_version.txt"));
                 sw.Close();
             }
             else{
@@ -339,6 +339,10 @@ namespace DelfiApp
                 ZipFile.ExtractToDirectory(fullPath + "\\World\\World.zip", fullPath + "\\World\\Files\\");
                 System.Diagnostics.Process.Start(fullPath + "\\World\\Files\\World.exe");
                 File.Delete(fullPath + "\\World\\World.zip");
+                File.Delete(fullPath + "\\World\\World_ver.txt");
+                StreamWriter sw = new StreamWriter(fullPath + "\\World\\World_ver.txt");
+                sw.Write(client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/World_version.txt"));
+                sw.Close();
             }
         }
     }
