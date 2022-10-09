@@ -241,7 +241,7 @@
             // 
             this.Real.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Real.LabelStyle = ComponentFactory.Krypton.Toolkit.LabelStyle.TitleControl;
-            this.Real.Location = new System.Drawing.Point(73, 168);
+            this.Real.Location = new System.Drawing.Point(8, 338);
             this.Real.Name = "Real";
             this.Real.Size = new System.Drawing.Size(6, 2);
             this.Real.StateNormal.Draw = ComponentFactory.Krypton.Toolkit.InheritBool.True;

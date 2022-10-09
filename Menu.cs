@@ -62,6 +62,25 @@ namespace DelfiApp
             }
         }
 
+        void Download_file(string requestString, string path)
+        {
+            HttpClient httpClient = new HttpClient();
+            var GetTask = httpClient.GetAsync(requestString);
+            GetTask.Wait(1000); // WebCommsTimeout is in milliseconds
+
+            if (!GetTask.Result.IsSuccessStatusCode)
+            {
+                // write an error
+                return;
+            }
+
+            using (var fs = new FileStream(path, FileMode.CreateNew))
+            {
+                var ResponseTask = GetTask.Result.Content.CopyToAsync(fs);
+                ResponseTask.Wait(1000);
+            }
+            System.Threading.Thread.Sleep(200);
+        }
         async void Set_locations(){
             await Task.Delay(1);
             kryptonButton1.Location = new Point(kryptonButton1.Location.X, kryptonButton1.Location.Y + 0);
@@ -296,25 +315,7 @@ namespace DelfiApp
                 string getver = sr.ReadLine();
                 if (!client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/World_version.txt").Contains(getver))
                 {
-                    System.Threading.Thread.Sleep(200);
-                    string requestString = @"https://github.com/Delfi1/DeWorld/blob/master/World/World.exe?raw=true";
-                    HttpClient httpClient = new HttpClient();
-                    var GetTask = httpClient.GetAsync(requestString);
-                    GetTask.Wait(1000); // WebCommsTimeout is in milliseconds
-
-                    if (!GetTask.Result.IsSuccessStatusCode)
-                    {
-                        // write an error
-                        return;
-                    }
-
-                    using (var fs = new FileStream(fullPath + "\\World\\World.exe", FileMode.CreateNew))
-                    {
-                        var ResponseTask = GetTask.Result.Content.CopyToAsync(fs);
-                        ResponseTask.Wait(1000);
-                    }
-                    System.Threading.Thread.Sleep(200);
-                    System.Diagnostics.Process.Start(fullPath + "\\World\\World.exe");
+                   
                 }
                 sr.Close();
             }
@@ -322,23 +323,8 @@ namespace DelfiApp
                 Directory.CreateDirectory(fullPath + "\\World");
                 File.Create(fullPath + "\\World\\World_ver.txt");
                 System.Threading.Thread.Sleep(200);
-                string requestString = @"https://github.com/Delfi1/DeWorld/blob/master/World/World.exe?raw=true";
-                HttpClient httpClient = new HttpClient();
-                var GetTask = httpClient.GetAsync(requestString);
-                GetTask.Wait(1000); // WebCommsTimeout is in milliseconds
-
-                if (!GetTask.Result.IsSuccessStatusCode)
-                {
-                    // write an error
-                    return;
-                }
-
-                using (var fs = new FileStream(fullPath + "\\World\\World.exe", FileMode.CreateNew))
-                {
-                    var ResponseTask = GetTask.Result.Content.CopyToAsync(fs);
-                    ResponseTask.Wait(1000);
-                }
-                System.Threading.Thread.Sleep(200);
+                Download_file(@"https://github.com/Delfi1/DeWorld/blob/master/World/World.exe?raw=true", fullPath + "\\World\\World.exe");
+                
                 System.Diagnostics.Process.Start(fullPath + "\\World\\World.exe");
             }
         }
