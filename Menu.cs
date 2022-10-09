@@ -292,9 +292,9 @@ namespace DelfiApp
 
         private void Real_MouseClick(object sender, MouseEventArgs e)
         {
-            if(File.Exists(fullPath + "\\World\\world.exe")){
+            if(File.Exists(fullPath + "\\World\\World.exe")){
 
-                File.Open(fullPath + "\\World\\world.exe", FileMode.Open);
+                File.Open(fullPath + "\\World\\World.exe", FileMode.Open);
             }
             else{
                 DirectoryInfo di = Directory.CreateDirectory(fullPath + "\\World");
