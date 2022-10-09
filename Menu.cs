@@ -19,49 +19,11 @@ namespace DelfiApp
     {
         int get_hg1;
         int get_wd1;
-        string ver = "0.2930";
+        string ver = "0.2931";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
         DeLog Log = new DeLog();
         DialogResult result;
-        void setup_update(bool in_st)
-        {
-            if (client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt").Contains(ver))
-            {
-                if (!in_st)
-                {
-                    result = MessageBox.Show("Версия приложения:" + ver + "\n" + "Версия приложения на сервере: " + client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt"), "Уведомление", MessageBoxButtons.OK);
-                }
-            }
-            else
-            {
-                if (!in_st) { result = MessageBox.Show("Версия приложения:" + ver + "\n" + "Версия приложения на сервере: " + client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt"), "Уведомление", MessageBoxButtons.OK); }
-                MessageBox.Show("Обнаружена новая версия! Идет установка файлов...", "Update", MessageBoxButtons.OKCancel);
-                if (result == DialogResult.OK)
-                {
-                    File.Move(fullPath + "\\DeWorld.exe", fullPath + "\\DeWorld_old.exe");
-                    System.Threading.Thread.Sleep(200);
-                    string requestString = @"https://github.com/Delfi1/DeWorld/blob/master/bin/Release/DelfiApp.exe?raw=true";
-                    HttpClient httpClient = new HttpClient();
-                    var GetTask = httpClient.GetAsync(requestString);
-                    GetTask.Wait(1000); // WebCommsTimeout is in milliseconds
-
-                    if (!GetTask.Result.IsSuccessStatusCode)
-                    {
-                        // write an error
-                        return;
-                    }
-
-                    using (var fs = new FileStream(fullPath + "\\DeWorld.exe", FileMode.CreateNew))
-                    {
-                        var ResponseTask = GetTask.Result.Content.CopyToAsync(fs);
-                        ResponseTask.Wait(1000);
-                    }
-                    System.Diagnostics.Process.Start(fullPath + "\\DeWorld.exe");
-                    Application.Exit();
-                }
-            }
-        }
         void Download_file(string requestString, string path)
         {
             HttpClient httpClient = new HttpClient();
@@ -81,6 +43,30 @@ namespace DelfiApp
             }
             System.Threading.Thread.Sleep(200);
         }
+        void setup_update(bool in_st)
+        {
+            if (client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt").Contains(ver))
+            {
+                if (!in_st)
+                {
+                    result = MessageBox.Show("Версия приложения:" + ver + "\n" + "Версия приложения на сервере: " + client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt"), "Уведомление", MessageBoxButtons.OK);
+                }
+            }
+            else
+            {
+                if (!in_st) { result = MessageBox.Show("Версия приложения:" + ver + "\n" + "Версия приложения на сервере: " + client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt"), "Уведомление", MessageBoxButtons.OK); }
+                MessageBox.Show("Обнаружена новая версия! Идет установка файлов...", "Update", MessageBoxButtons.OKCancel);
+                if (result == DialogResult.OK)
+                {
+                    File.Move(fullPath + "\\DeWorld.exe", fullPath + "\\DeWorld_old.exe");
+                    System.Threading.Thread.Sleep(200);
+                    Download_file(@"https://github.com/Delfi1/DeWorld/blob/master/bin/Release/DelfiApp.exe?raw=true", fullPath + "\\DeWorld.exe");       
+                    System.Diagnostics.Process.Start(fullPath + "\\DeWorld.exe");
+                    Application.Exit();
+                }
+            }
+        }
+
         async void Set_locations(){
             await Task.Delay(1);
             kryptonButton1.Location = new Point(kryptonButton1.Location.X, kryptonButton1.Location.Y + 0);
