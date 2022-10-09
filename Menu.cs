@@ -18,7 +18,7 @@ namespace DelfiApp
     {
         int get_hg1;
         int get_wd1;
-        string ver = "0.2924";
+        string ver = "0.2925";
         string World_ver = "A01";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
@@ -62,15 +62,7 @@ namespace DelfiApp
                 }
             }
         }
-        async void Change_col(KryptonButton btn)
-        {
-            string col = File.ReadLines(fullPath + "\\Design.txt").ElementAtOrDefault(0);
-            await Task.Delay(10);
-            btn.StateNormal.Back.Color1 = Color.FromName(col);
-            btn.StateCommon.Back.Color1 = Color.FromName(col);
-            btn.StateTracking.Back.Color1 = Color.FromName(col);
-            btn.StatePressed.Back.Color1 = Color.FromName(col);
-        }
+
         async void Set_locations(){
             await Task.Delay(1);
             kryptonButton1.Location = new Point(kryptonButton1.Location.X, kryptonButton1.Location.Y + 0);
@@ -180,7 +172,6 @@ namespace DelfiApp
         }
         async void Load_(){
             Real.Visible = false;
-            Change_col(kryptonButton1);
             Set_locations();
             kryptonColorButton1.Visible = false;
             kryptonColorButton2.Visible = false;
