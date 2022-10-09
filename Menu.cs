@@ -19,7 +19,7 @@ namespace DelfiApp
     {
         int get_hg1;
         int get_wd1;
-        string ver = "0.2931";
+        string ver = "0.2932";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
         DeLog Log = new DeLog();
@@ -54,8 +54,8 @@ namespace DelfiApp
             }
             else
             {
-                if (!in_st) { result = MessageBox.Show("Версия приложения:" + ver + "\n" + "Версия приложения на сервере: " + client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt"), "Уведомление", MessageBoxButtons.OK); }
-                MessageBox.Show("Обнаружена новая версия! Идет установка файлов...", "Update", MessageBoxButtons.OKCancel);
+                if (!in_st) {MessageBox.Show("Версия приложения:" + ver + "\n" + "Версия приложения на сервере: " + client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/version.txt"), "Уведомление", MessageBoxButtons.OK); }
+                result = MessageBox.Show("Обнаружена новая версия! Идет установка файлов...", "Update", MessageBoxButtons.OKCancel);
                 if (result == DialogResult.OK)
                 {
                     File.Move(fullPath + "\\DeWorld.exe", fullPath + "\\DeWorld_old.exe");
@@ -84,6 +84,8 @@ namespace DelfiApp
             kryptonButton1.Height = 0;
             kryptonButton2.Width = 0;
             kryptonButton2.Height = 0;
+            kryptonButton3.Width = 0;
+            kryptonButton3.Height = 0;
         }
         async void Btn_ch(KryptonButton btn) {
             while (true)
@@ -153,29 +155,7 @@ namespace DelfiApp
                 await Task.Delay(12);
             }
         }
-        async void reality(){
-            await Task.Delay(2000);
-            Real.Visible = true;
-            int step = 0;
-            string Realit = "World";
-            string Ent = "Enter";
-            while (step <= Ent.Length)
-            {
-                Real.Values.ExtraText = Ent.Substring(0, step++);
-
-                await Task.Delay(40);
-            }
-            step = 0;
-            await Task.Delay(100);
-            while (step <= Realit.Length)
-            {
-                Real.Values.Text = Realit.Substring(0, step++);
-
-                await Task.Delay(90);
-            }
-        }
         async void Load_(){
-            Real.Visible = false;
             Set_locations();
             kryptonColorButton1.Visible = false;
             kryptonColorButton2.Visible = false;
@@ -190,12 +170,12 @@ namespace DelfiApp
             await Task.Delay(1800);
             Btn_ch(kryptonButton1);
             Btn_ch(kryptonButton2);
+            Btn_ch(kryptonButton3);
             await Task.Delay(20);
             TextExtraEdit();
             Initilise();
             setup_update(true);
             await Task.Delay(1000);
-            reality();
         }
         private static String RGBConverter(Color col)
         {
@@ -294,9 +274,10 @@ namespace DelfiApp
             Change_col(kryptonButton2, kryptonColorButton2, 1);
         }
 
-        async private void Real_MouseClick(object sender, MouseEventArgs e)
+        async private void kryptonButton3_Click(object sender, EventArgs e)
         {
-            if(File.Exists(fullPath + "\\World\\Files\\World.exe")){
+            if (File.Exists(fullPath + "\\World\\Files\\World.exe"))
+            {
                 StreamReader sr = new StreamReader(fullPath + "\\World\\World_ver.txt");
                 string getver = await sr.ReadToEndAsync();
                 sr.Close();
@@ -304,7 +285,8 @@ namespace DelfiApp
                 {
                     System.Diagnostics.Process.Start(fullPath + "\\World\\Files\\World.exe");
                 }
-                else{
+                else
+                {
                     Directory.Delete(fullPath + "\\World\\Files", true);
                     await Task.Delay(200);
                     Download_file(@"https://github.com/Delfi1/DeWorld/blob/master/World.zip?raw=true", fullPath + "\\World\\World.zip");
@@ -317,7 +299,8 @@ namespace DelfiApp
                 sw.Write(client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/World_version.txt"));
                 sw.Close();
             }
-            else{
+            else
+            {
                 Directory.CreateDirectory(fullPath + "\\World\\Files");
                 File.Create(fullPath + "\\World\\World_ver.txt");
                 await Task.Delay(200);
