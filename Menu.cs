@@ -18,7 +18,7 @@ namespace DelfiApp
     {
         int get_hg1;
         int get_wd1;
-        string ver = "0.2925";
+        string ver = "0.2926";
         string World_ver = "A01";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
@@ -40,7 +40,7 @@ namespace DelfiApp
                 if (result == DialogResult.OK)
                 {
                     File.Move(fullPath + "\\DeWorld.exe", fullPath + "\\DeWorld_old.exe");
-                    System.Threading.Thread.Sleep(100);
+                    System.Threading.Thread.Sleep(200);
                     string requestString = @"https://github.com/Delfi1/DeWorld/blob/master/bin/Release/DelfiApp.exe?raw=true";
                     HttpClient httpClient = new HttpClient();
                     var GetTask = httpClient.GetAsync(requestString);
