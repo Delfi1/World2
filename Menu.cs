@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ComponentFactory.Krypton.Toolkit;
+using System.IO.Compression;
 
 namespace DelfiApp
 {
@@ -177,7 +178,7 @@ namespace DelfiApp
             {
                 Real.Values.ExtraText = Ent.Substring(0, step++);
 
-                await Task.Delay(175);
+                await Task.Delay(40);
             }
             step = 0;
             await Task.Delay(100);
@@ -308,24 +309,36 @@ namespace DelfiApp
             Change_col(kryptonButton2, kryptonColorButton2, 1);
         }
 
-        private void Real_MouseClick(object sender, MouseEventArgs e)
+        async private void Real_MouseClick(object sender, MouseEventArgs e)
         {
-            if(File.Exists(fullPath + "\\World\\World.exe")){
+            if(File.Exists(fullPath + "\\World\\Files\\World.exe")){
                 StreamReader sr = new StreamReader(fullPath + "\\World\\World_ver.txt");
-                string getver = sr.ReadLine();
-                if (!client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/World_version.txt").Contains(getver))
-                {
-                   
-                }
+                string getver = await sr.ReadToEndAsync();
                 sr.Close();
+                if (getver.Contains(client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/World_version.txt")))
+                {
+                    System.Diagnostics.Process.Start(fullPath + "\\World\\Files\\World.exe");
+                }
+                else{
+                    Directory.Delete(fullPath + "\\World\\Files", true);
+                    await Task.Delay(200);
+                    Download_file(@"https://github.com/Delfi1/DeWorld/blob/master/World.zip?raw=true", fullPath + "\\World\\World.zip");
+                    ZipFile.ExtractToDirectory(fullPath + "\\World\\World.zip", fullPath + "\\World\\Files\\");
+                    System.Diagnostics.Process.Start(fullPath + "\\World\\Files\\World.exe");
+                    File.Delete(fullPath + "World\\World.zip");
+                }
+                StreamWriter sw = new StreamWriter(fullPath + "\\World\\World_ver.txt");
+                sw.WriteLine(client.DownloadString("https://raw.githubusercontent.com/Delfi1/DeWorld/master/World_version.txt"));
+                sw.Close();
             }
             else{
-                Directory.CreateDirectory(fullPath + "\\World");
+                Directory.CreateDirectory(fullPath + "\\World\\Files");
                 File.Create(fullPath + "\\World\\World_ver.txt");
-                System.Threading.Thread.Sleep(200);
-                Download_file(@"https://github.com/Delfi1/DeWorld/blob/master/World/World.exe?raw=true", fullPath + "\\World\\World.exe");
-                
-                System.Diagnostics.Process.Start(fullPath + "\\World\\World.exe");
+                await Task.Delay(200);
+                Download_file(@"https://github.com/Delfi1/DeWorld/blob/master/World.zip?raw=true", fullPath + "\\World\\World.zip");
+                ZipFile.ExtractToDirectory(fullPath + "\\World\\World.zip", fullPath + "\\World\\Files\\");
+                System.Diagnostics.Process.Start(fullPath + "\\World\\Files\\World.exe");
+                File.Delete(fullPath + "\\World\\World.zip");
             }
         }
     }
