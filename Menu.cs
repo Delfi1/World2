@@ -19,7 +19,7 @@ namespace DelfiApp
     {
         int get_hg1;
         int get_wd1;
-        string ver = "0.2935";
+        string ver = "0.2936";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
         DeLog Log = new DeLog();
