@@ -19,7 +19,7 @@ namespace DelfiApp
     {
         int get_hg1;
         int get_wd1;
-        string ver = "0.2936";
+        string ver = "0.2937";
         WebClient client = new WebClient();
         string fullPath = Application.StartupPath.ToString();
         DeLog Log = new DeLog();
@@ -287,6 +287,7 @@ namespace DelfiApp
                 }
                 else
                 {
+                    MessageBox.Show("Обнаружена новая версия!", "Updater", MessageBoxButtons.OK);
                     Directory.Delete(fullPath + "\\World\\Files", true);
                     await Task.Delay(200);
                     Download_file(@"https://github.com/Delfi1/DeWorld/blob/master/World.zip?raw=true", fullPath + "\\World\\World.zip");
